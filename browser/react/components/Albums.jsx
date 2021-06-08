@@ -5,7 +5,6 @@ export default ({ albums, selectAlbum }) => (
   <div className="albums">
     <h3>Albums</h3>
     <div className="row">
-      {console.log(albums)}
       {albums.map((album) => (
         <div key={album.id} className="col-xs-4">
           <Link to={`/albums/${album.id}`}>

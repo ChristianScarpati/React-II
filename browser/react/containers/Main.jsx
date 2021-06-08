@@ -4,6 +4,8 @@ import Sidebar from "../components/Sidebar";
 import Footer from "../components/Footer";
 import Albums from "../components/Albums";
 import SingleAlbum from "../components/SingleAlbum";
+import Artists from "../components/Artists";
+import Artist from "../components/Artist";
 import audio from "../audio";
 import { Route, Redirect, Switch } from "react-router-dom";
 
@@ -17,9 +19,13 @@ export default class Main extends React.Component {
       isPlaying: false,
       currentSongList: [],
       progress: 0,
+      artists: [],
+      selectedArtist: {},
     };
+
     this.selectAlbum = this.selectAlbum.bind(this);
     this.deselectAlbum = this.deselectAlbum.bind(this);
+    this.selectArtists = this.selectArtists.bind(this);
     this.start = this.start.bind(this);
     this.play = this.play.bind(this);
     this.pause = this.pause.bind(this);
@@ -51,6 +57,15 @@ export default class Main extends React.Component {
 
   deselectAlbum() {
     this.setState({ selectedAlbum: {} });
+  }
+
+  selectArtists() {
+    axios
+      .get("/api/artists")
+      .then((res) => res.data)
+      .then((artists) => {
+        this.setState({ artists: artists });
+      });
   }
 
   start(song, songs) {
@@ -101,8 +116,16 @@ export default class Main extends React.Component {
   }
 
   render() {
-    const { albums, selectedAlbum, selectedSong, isPlaying, progress } =
-      this.state;
+    const {
+      albums,
+      selectedAlbum,
+      selectedSong,
+      isPlaying,
+      progress,
+      artists,
+      selectedArtist,
+    } = this.state;
+
     return (
       <div id="main" className="container-fluid">
         <Sidebar deselectAlbum={this.deselectAlbum} />
@@ -125,6 +148,19 @@ export default class Main extends React.Component {
               path="/albums"
               render={() => (
                 <Albums albums={albums} selectAlbum={this.selectAlbum} />
+              )}
+            />
+
+            <Route path="/artists/:id" render={() => <Artist />} />
+
+            <Route
+              path="/artists"
+              render={() => (
+                <Artists
+                  artists={artists}
+                  selectedArtist={selectedArtist}
+                  selectArtists={this.selectArtists}
+                />
               )}
             />
 

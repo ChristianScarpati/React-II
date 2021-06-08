@@ -1,14 +1,15 @@
-import React from 'react';
+import React from "react";
+import { Link } from "react-router-dom";
 
 export default ({ deselectAlbum }) => (
   <div className="col-xs-2">
-      <section className='sidebar'>
-        <img src="juke.svg" className="logo" />
-        <section>
-          <h4 className="menu-item active">
-            <a onClick={deselectAlbum} href="#">ALBUMS</a>
-          </h4>
-        </section>
+    <section className="sidebar">
+      <img src="juke.svg" className="logo" />
+      <section>
+        <h4 className="menu-item active">
+          <Link to="/albums">ALBUMS</Link>
+        </h4>
       </section>
-    </div>
+    </section>
+  </div>
 );
